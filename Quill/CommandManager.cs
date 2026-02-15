@@ -33,13 +33,13 @@ namespace Quill
                     return;
                 case "help":
                 {
-                    SendChatMessage("----------HELP----------\\u003Csize=15\\u003E"); //Sets Size to 15 (default is 30) (you need to use \\u003C instead of < to bypass nuins anti rich TMP
+                    SendChatMessage("----------HELP----------<size=15>"); //Sets Size to 15 (default is 30)
                     foreach (var command in _commands.Select(kvp => kvp.Value))
                     {
                         SendChatMessage($"{command.Name} - {command.Description}");
                     }
 
-                    SendChatMessage("\\u003C/size\\u003E----------HELP----------"); //Resets size
+                    SendChatMessage("</size>----------HELP----------"); //Resets size
                     return;
                 }
             }
