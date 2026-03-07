@@ -93,7 +93,6 @@
     <Compile Include="Commands\Classes\BeetleData.cs" />
     <Compile Include="Commands\Classes\ChatCommand.cs" />
     <Compile Include="Commands\ClearDung.cs" />
-    <Compile Include="Commands\DisableScoring.cs" />
     <Compile Include="Commands\FastCooldowns.cs" />
     <Compile Include="Commands\SpawnDung.cs" />
     <Compile Include="Main.cs" />
