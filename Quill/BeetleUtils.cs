@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using Il2Cpp;
 using UnityEngine.InputSystem;
@@ -8,6 +9,18 @@ namespace Quill
 {
     public static class BeetleUtils
     {
+
+        public static BeetleActor GetActorByName(string name)
+        {
+            foreach (var beetle in GetAllBeetles())
+            {
+                if (GetPlayerName(beetle) == name)
+                {
+                    return beetle;
+                }
+            }
+            return GetLocalBeetle();
+        }
         public static string GetMapName()
         {
             try
@@ -116,7 +129,7 @@ namespace Quill
             catch { return "player_" + beetle.NetworkBehaviourId; }
 
 
-            return "Unknown";
+            return "TEST";
         }
         public static void SendChatMessage(string message)
         {

@@ -9,7 +9,7 @@ namespace Quill.Commands
         {
         }
 
-        private static void ExecuteBunnyModify(string[] args)
+        private static void ExecuteBunnyModify(string[] args, string player)
         {
             if (args.Length < 1)
             {

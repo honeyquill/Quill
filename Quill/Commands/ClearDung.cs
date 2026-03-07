@@ -8,7 +8,7 @@ namespace Quill
         {
         }
 
-        private static void ClearDungExecute(string[] args)
+        private static void ClearDungExecute(string[] args, string player)
         {
             var dung = UnityEngine.Object.FindObjectsOfType<Il2Cpp.DungBall>();
             

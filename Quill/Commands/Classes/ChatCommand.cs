@@ -4,18 +4,20 @@ namespace Quill
 {
     public class ChatCommand
     {
-        public string Name { get; }
-        public string Description { get; }
-        public Action<string[]> Execute { get; }
+        public string Name;
+        public string Description;
+        private readonly Action<string[], string> _execute;
 
-        public int MinArgs { get; }
-
-        protected ChatCommand(string name, string description, Action<string[]> execute, int minArgs)
+        public ChatCommand(string name, string description, Action<string[], string> execute, int args)
         {
             Name = name;
             Description = description;
-            Execute = execute;
-            MinArgs = minArgs;
+            _execute = execute;
+        }
+
+        public void Execute(string[] args, string player)
+        {
+            _execute(args, player);
         }
     }
 }

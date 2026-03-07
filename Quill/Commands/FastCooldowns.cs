@@ -7,7 +7,7 @@ namespace Quill.Commands
         public FastCooldowns(): base("cooldowns", "Manage Cooldowns being on or off", FastCooldownsExecute, 1)
         {
         }
-        private static void FastCooldownsExecute(string[] args)
+        private static void FastCooldownsExecute(string[] args, string player)
         {
             var localBeetle = BeetleUtils.GetLocalBeetle();
             var modifiedBeetle = localBeetle.name

@@ -10,7 +10,7 @@ namespace Quill
             : base("dung", "Creates a dung sized [1 - 5]", ExecuteSpawnDung, 1)
         {
         }
-        private static void ExecuteSpawnDung(string[] args)
+        private static void ExecuteSpawnDung(string[] args, string player)
         {
             if (args.Length < 1)
             {
@@ -29,11 +29,13 @@ namespace Quill
                 BeetleUtils.SendChatMessage("Number must be between 1 and 5.");
                 return;
             }
-            
-            BeetleUtils.SendChatMessage("Spawning dung sized " + args[0]);
+            var beetle = BeetleUtils.GetActorByName(player);
+            BeetleUtils.SendChatMessage($"Spawning dung sized  {args[0]} for {BeetleUtils.GetPlayerName(beetle)}");
             var prefabSpawner = 
-                UnityEngine.Object.FindObjectsOfType<NetworkPrefabSpawner>()[0]; 
-            var beetle = BeetleUtils.GetLocalBeetle();
+                UnityEngine.Object.FindObjectsOfType<NetworkPrefabSpawner>()[0];
+
+            
+            
             var rpcParams = new RpcParams(); // initializes new non null rpc params
             prefabSpawner.SpawnDungBall_ServerRpc(beetle.transform.position, beetle.Velocity, value, 0, rpcParams);
         }
