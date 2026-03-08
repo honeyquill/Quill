@@ -11,7 +11,7 @@ namespace Quill
         {
         }
 
-        private static void ChangeBeetleExecute(string[] args, string player)
+        private static void ChangeBeetleExecute(string[] args, string playername)
         {
             if (args.Length != 1)
             {
@@ -28,8 +28,21 @@ namespace Quill
                 return;
             }
             
-            var prefabSpawner = UnityEngine.Object.FindObjectsOfType<Il2Cpp.NetworkPrefabSpawner>()[0]; 
-            prefabSpawner.SpawnClass_ServerRpc(id, new SpawnPositionData(), new SetTeamData(), new RpcParams());
+            var PlayerActor = BeetleUtils.GetActorByName(playername);
+            var PlayerId = PlayerActor.OwnerClientId;
+            var PlayerTeam = PlayerActor.Team;
+
+            var prefabSpawner = UnityEngine.Object.FindObjectsOfType<Il2Cpp.NetworkPrefabSpawner>()[0];
+            if (PlayerId == 0) {
+                prefabSpawner.SpawnClass_ServerRpc(id, new SpawnPositionData(), new SetTeamData(), new RpcParams());
+            }
+            else {
+                if (GameState.CurrentState != GameState.State.Lobby_Custom)
+                    prefabSpawner.SpawnClassAndSetTeam(PlayerId, PlayerTeam, id);
+                else
+                    BeetleUtils.SendChatMessage("You cannot change your beetle in the lobby as non host!");
+            }
+
         }
     }
 }
