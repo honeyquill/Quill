@@ -1,6 +1,8 @@
 ﻿using System;
 using Il2Cpp;
+using MelonLoader;
 using Unity.Netcode;
+using UnityEngine;
 using static Quill.Main;
 
 namespace Quill
@@ -36,9 +38,31 @@ namespace Quill
             if (PlayerId == 0) {
                 prefabSpawner.SpawnClass_ServerRpc(id, new SpawnPositionData(), new SetTeamData(), new RpcParams());
             }
-            else {
+            else
+            { //This code only works on true Blue For SOME reason so i just set the team of the beetle after spawning it, this is really jank but it works so im not gonna complain
                 if (GameState.CurrentState != GameState.State.Lobby_Custom)
-                    prefabSpawner.SpawnClassAndSetTeam(PlayerId, PlayerTeam, id);
+                {
+                    var MapInitializer = UnityEngine.Object.FindObjectsOfType<Il2Cpp.MapInitializer>()[0];
+
+                    Vector3 OriginalSpawnPos = MapInitializer.SpawnPositions[0].spawnTransform.position;
+                    Quaternion OriginalSpawnRotaion = MapInitializer.SpawnPositions[0].spawnTransform.rotation;
+
+                    MapInitializer.SpawnPositions[0].spawnTransform.position = PlayerActor.transform.position;
+                    MapInitializer.SpawnPositions[0].spawnTransform.rotation = PlayerActor.transform.rotation;
+
+                    prefabSpawner.SpawnClassAndSetTeam(PlayerId, TeamType.Blue, id);
+                    foreach( var beetle in BeetleUtils.GetAllBeetles())
+                    {
+                        if (beetle.OwnerClientId == PlayerId)
+                        {
+                            beetle._team.Value = (int)PlayerTeam;
+                        }
+                    }
+
+                    MapInitializer.SpawnPositions[0].spawnTransform.position = OriginalSpawnPos;
+                    MapInitializer.SpawnPositions[0].spawnTransform.rotation = OriginalSpawnRotaion;
+                }
+
                 else
                     BeetleUtils.SendChatMessage("You cannot change your beetle in the lobby as non host!");
             }

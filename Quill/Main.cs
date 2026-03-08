@@ -60,12 +60,6 @@ namespace Quill
                 lobbyOptions = Resources.FindObjectsOfTypeAll<Il2Cpp.CustomLobbyHostOptionsUI>()[0];
             }
 
-            if (!Mathf.Approximately(lobbyOptions.maxPlayersSlider.m_Value, 1))
-            {
-                if (_quillEnabled) SendChatMessage("Quill is currently singleplayer only! set the lobby size to 1 to re-enable. disabling...");
-                _quillEnabled = false;
-                return;
-            }
 
             if (!inCustom) return;
             if (!_quillEnabled) SendChatMessage($"This server is running {Info.Name} {Info.Version} by {Info.Author}");
@@ -77,4 +71,4 @@ namespace Quill
 
 
     }
-}
+} 
