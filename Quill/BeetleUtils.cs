@@ -131,6 +131,8 @@ namespace Quill
             var chatPanel = UnityEngine.Object.FindObjectOfType<ChatPanel>();
             if (chatPanel != null)
             {
+                message = message.Replace(">", "\\u003E");
+                message = message.Replace("<", "\\u003C");
                 chatPanel.SendChatMessage(message);
             }
         }

@@ -4,7 +4,7 @@ using static Quill.BeetleUtils;
 using MelonLoader;
 using Quill.Commands;
 using UnityEngine;
-using Main =  Quill.Main;
+using Main = Quill.Main;
 
 
 [assembly: MelonInfo(typeof(Main), "Quill", "1.0", "Bee")]
@@ -16,12 +16,12 @@ namespace Quill
     {
         private static CommandManager CommandManager { get; } = new CommandManager();
         public static BeetleRegistry BeetleRegistry { get; } = new BeetleRegistry();
-        
-        private bool _quillEnabled = false;
+
+        public static bool _quillEnabled = false;
         private CustomLobbyHostOptionsUI lobbyOptions;
-        private bool inCustom = false;
-        
-        
+        public static bool inCustom = false;
+
+
         public override void OnInitializeMelon()
         {
             CommandManager.RegisterCommand("dung", new SpawnDung());
@@ -29,7 +29,8 @@ namespace Quill
             CommandManager.RegisterCommand("cooldowns", new FastCooldowns());
             CommandManager.RegisterCommand("clear", new ClearDung());
             CommandManager.RegisterCommand("beetle", new ChangeBeetle());
-            
+            CommandManager.RegisterCommand("goal", new DisableScoring());
+
             BeetleRegistry.RegisterNameToIdCache();
         }
 
@@ -40,7 +41,7 @@ namespace Quill
                 _quillEnabled = false;
                 return;
             }
-            
+
             switch (GameState.CurrentState)
             {
                 case GameState.State.Lobby_Custom:
@@ -56,17 +57,24 @@ namespace Quill
 
             if (lobbyOptions == null && GetMapName() == null)
             {
-                lobbyOptions = Resources.FindObjectsOfTypeAll<Il2Cpp.CustomLobbyHostOptionsUI>()[0]; 
+                lobbyOptions = Resources.FindObjectsOfTypeAll<Il2Cpp.CustomLobbyHostOptionsUI>()[0];
+            }
+
+            if (!Mathf.Approximately(lobbyOptions.maxPlayersSlider.m_Value, 1))
+            {
+                if (_quillEnabled) SendChatMessage("Quill is currently singleplayer only! set the lobby size to 1 to re-enable. disabling...");
+                _quillEnabled = false;
+                return;
             }
 
             if (!inCustom) return;
             if (!_quillEnabled) SendChatMessage($"This server is running {Info.Name} {Info.Version} by {Info.Author}");
             _quillEnabled = true;
-            
+
             CommandManager.CommandHandler();
         }
-        
-        
-        
+
+
+
     }
 }

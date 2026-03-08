@@ -33,11 +33,13 @@ namespace Quill
                     return;
                 case "help":
                 {
+                    SendChatMessage("----------HELP----------<size=15>"); //Sets Size to 15 (default is 30)
                     foreach (var command in _commands.Select(kvp => kvp.Value))
                     {
                         SendChatMessage($"{command.Name} - {command.Description}");
                     }
 
+                    SendChatMessage("</size>----------HELP----------"); //Resets size
                     return;
                 }
             }
