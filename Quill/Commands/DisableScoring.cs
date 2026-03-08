@@ -11,12 +11,12 @@ namespace Quill
 
         public static void Init()
         {
-            HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("com.quill.DisableScoring");
+            HarmonyLib.Harmony harmony = new HarmonyLib.Harmony("com.quill.DisableGoals");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
         static bool AllowScoring = true;
-        public DisableScoring() : base("score", "Disables / Enables scoring", ChangeGoalAvaliability, 0)
+        public DisableScoring() : base("goal", "Disables / Enables goals", ChangeGoalAvaliability, 0)
         {
         }
 
