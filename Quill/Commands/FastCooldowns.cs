@@ -7,10 +7,15 @@ namespace Quill.Commands
         public FastCooldowns(): base("cooldowns", "Manage Cooldowns being on or off", FastCooldownsExecute, 1)
         {
         }
-        private static void FastCooldownsExecute(string[] args, string player)
+        private static void FastCooldownsExecute(string[] args, string playername)
         {
-            var localBeetle = BeetleUtils.GetLocalBeetle();
-            var modifiedBeetle = localBeetle.name
+            var playerActor = BeetleUtils.GetActorByName(playername);
+            if (playerActor.OwnerClientId != 0)
+            {
+                BeetleUtils.SendChatMessage("Only the host can use this command ATM.");
+                return;
+            }
+            var modifiedBeetle = playerActor.name
                 .Replace("(Clone)", "")
                 .Replace("BeetleActor_", "").Trim();
             var beetleCache = Main.BeetleRegistry.GetBeetleCooldownCache();
@@ -18,8 +23,8 @@ namespace Quill.Commands
 
             if (!beetleCache.ContainsKey(modifiedBeetle))
             {
-                var ballCooldown = localBeetle.Stats.AbilityStatsBall.ChargeDuration;
-                var ballNormalCooldown = localBeetle.Stats.AbilityStatsNormal.ChargeDuration;
+                var ballCooldown = playerActor.Stats.AbilityStatsBall.ChargeDuration;
+                var ballNormalCooldown = playerActor.Stats.AbilityStatsNormal.ChargeDuration;
                 
                 beetleCache.Add(modifiedBeetle, new BeetleData(ballCooldown, ballNormalCooldown));
             }
@@ -32,12 +37,12 @@ namespace Quill.Commands
             switch (args[0])
             {
                 case "on":
-                    beetleCache[modifiedBeetle].ResetCooldowns(localBeetle);
+                    beetleCache[modifiedBeetle].ResetCooldowns(playerActor);
                     BeetleUtils.SendChatMessage("cooldowns turning on");
                     break;
                 case "off":
-                    localBeetle.Stats.AbilityStatsBall.ChargeDuration = 0.1f;
-                    localBeetle.Stats.AbilityStatsNormal.ChargeDuration = 0.1f;
+                    playerActor.Stats.AbilityStatsBall.ChargeDuration = 0.1f;
+                    playerActor.Stats.AbilityStatsNormal.ChargeDuration = 0.1f;
                     BeetleUtils.SendChatMessage("Cooldowns turning off");
                     break;
                 default:
