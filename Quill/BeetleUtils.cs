@@ -1,13 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using Il2Cpp;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using Il2Cpp;
 using UnityEngine.InputSystem;
 
 namespace Quill
 {
     public static class BeetleUtils
     {
+
+        public static BeetleActor GetActorByName(string name)
+        {
+            foreach (var beetle in GetAllBeetles())
+            {
+                if (GetPlayerName(beetle) == name)
+                {
+                    return beetle;
+                }
+            }
+            return GetLocalBeetle();
+        }
         public static string GetMapName()
         {
             try
@@ -21,12 +33,12 @@ namespace Quill
             }
 
         }
-        
+
         public static bool Pressed(Key key)
         {
             return Keyboard.current[key].wasPressedThisFrame;
         }
-        
+
         public static string ModFolder()
         {
             var gameData = UnityEngine.Application.dataPath;
@@ -36,12 +48,12 @@ namespace Quill
             var modsFolder = Path.Combine(gameRoot, "Mods");
             return modsFolder;
         }
-        
+
         public static BeetleActor[] GetAllBeetles()
         {
             return UnityEngine.Object.FindObjectsOfType<Il2Cpp.BeetleActor>();
         }
-        
+
         public static BeetleActor GetLocalBeetle()
         {
             BeetleActor[] allBeetles = GetAllBeetles();
@@ -52,13 +64,13 @@ namespace Quill
             }
             return null;
         }
-        
+
         public static bool IsHost()
         {
             if (GetLocalBeetle() == null) return false;
             return GetLocalBeetle().IsHost;
         }
-        
+
         public static void ApplyModifer(ModifierType modifier, DungBall dungBall, float duration)
         {
             dungBall.ModifiersController.AddModifierRpcDispatcher(modifier, duration);
@@ -81,7 +93,7 @@ namespace Quill
             }
             return result;
         }
-        
+
         public static void Score(Il2Cpp.TeamType team)
         {
             BeetleActor[] allBeetles = BeetleUtils.GetAllBeetles();
@@ -99,24 +111,20 @@ namespace Quill
         public static string GetPlayerName(BeetleActor beetle)
         {
             if (beetle == null) return "Unknown";
+            var nametags = PlayerNametagsController.Instance;
 
-            try
+            if (nametags != null)
             {
-                var nametags = PlayerNametagsController.Instance;
-                if (nametags != null)
+                foreach(var nametag in nametags._activeNametags)
                 {
-                    NametagUI nametagText;
-                    if (nametags._activeNametags.TryGetValue(beetle, out nametagText) && nametagText != null)
+                    if (nametag.key == beetle)
                     {
-                        string txt = nametagText.name;
-                        if (!string.IsNullOrEmpty(txt)) return txt;
+                        return nametag.value.nameText.text;
                     }
                 }
             }
-            catch { return "player_" + beetle.NetworkBehaviourId; }
 
-
-            return "Unknown";
+            return "TEST";
         }
         public static void SendChatMessage(string message)
         {

@@ -25,7 +25,7 @@ namespace Quill
         {
             var result = GetNewestCommand();
             if (result == null) return;
-            var (commandName, args) = result.Value;
+            var (commandName, args, player) = result.Value;
 
             switch (commandName)
             {
@@ -46,7 +46,7 @@ namespace Quill
 
             if (_commands.TryGetValue(commandName, out var commandAction))
             {
-                commandAction.Execute(args);
+                commandAction.Execute(args,player);
             }
             else
             {
@@ -54,7 +54,7 @@ namespace Quill
             }
         }
         
-        private (string command, string[] args)? GetNewestCommand()
+        private (string command, string[] args,string player)? GetNewestCommand()
         {
             var history = GetChatHistory();
             if (history == null || history.Count == 0)
@@ -77,10 +77,11 @@ namespace Quill
             var args = parts.Length > 1
                 ? parts.Skip(1).ToArray()
                 : Array.Empty<string>();
+            var player = history[newestIndex].player;
 
             MelonLogger.Msg("Command identified:" + _newestMsg);
 
-            return (commandName, args);
+            return (commandName, args,player);
         }
     }
 }

@@ -50,6 +50,9 @@ namespace Quill
                 case GameState.State.MainMenu:
                     inCustom = false;
                     break;
+                case GameState.State.Lobby_PreMatch:
+                    inCustom = true;
+                    break;
             }
 
             if (lobbyOptions == null && GetMapName() == null)
