@@ -18,7 +18,6 @@ namespace Quill
         public static BeetleRegistry BeetleRegistry { get; } = new BeetleRegistry();
 
         public static bool _quillEnabled = false;
-        private CustomLobbyHostOptionsUI lobbyOptions;
         public static bool inCustom = false;
 
 
@@ -53,11 +52,6 @@ namespace Quill
                 case GameState.State.Lobby_PreMatch:
                     inCustom = true;
                     break;
-            }
-
-            if (lobbyOptions == null && GetMapName() == null)
-            {
-                lobbyOptions = Resources.FindObjectsOfTypeAll<Il2Cpp.CustomLobbyHostOptionsUI>()[0];
             }
 
 
