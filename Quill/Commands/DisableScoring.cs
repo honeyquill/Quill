@@ -20,7 +20,7 @@ namespace Quill
         {
         }
 
-        private static void ChangeGoalAvaliability(string[] args)
+        private static void ChangeGoalAvaliability(string[] args, string playername)
         {
             if (args.Length == 0)
             {
