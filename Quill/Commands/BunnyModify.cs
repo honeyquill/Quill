@@ -13,7 +13,7 @@ namespace Quill.Commands
         {
             if (args.Length < 1)
             {
-                BeetleUtils.SendChatMessage("Usage: bunny [start, stop, speed] [1-150]");
+                BeetleUtils.SendChatMessage("Usage: bunny [start, stop, speed (measured in seconds between bunnys)] [0-100]");
                 return;
             }
             
@@ -35,18 +35,18 @@ namespace Quill.Commands
                 case "speed":
                     if (args.Length != 2)
                     {
-                        BeetleUtils.SendChatMessage("missing args: bunny speed [1-150]");
+                        BeetleUtils.SendChatMessage("missing args: bunny speed [0-100]");
                         return;
                     }
 
                     if (!int.TryParse(args[1], out int value))
                     {
-                        BeetleUtils.SendChatMessage("Argument must be a number between 1 and 150.");
+                        BeetleUtils.SendChatMessage("Argument must be a number between 1 and 100.");
                     }
                     
-                    if (value < 1 || value > 5)
+                    if (value <= 0 || value >= 100)
                     {
-                        BeetleUtils.SendChatMessage("Argument must be a number between 1 and 150.");
+                        BeetleUtils.SendChatMessage("Argument must be a number between 1 and 100.");
                         return;
                     }
 
@@ -55,7 +55,7 @@ namespace Quill.Commands
                     BeetleUtils.SendChatMessage("Setting spawn interval to " + value);
                     break;
                 default:
-                    BeetleUtils.SendChatMessage("Usage: bunny [start, stop, speed] [1-255]");
+                    BeetleUtils.SendChatMessage("Usage: bunny [start, stop, speed] [1-100]");
                     break;
             }
         }
