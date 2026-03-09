@@ -9,6 +9,16 @@ namespace Quill.Commands
         {
         }
 
+
+        static void DespawnBunny()
+        {
+            var bunnies = UnityEngine.Object.FindObjectsOfType<BunnyPathJumper>();
+            foreach (var bunny in bunnies)
+            {
+                UnityEngine.Object.Destroy(bunny.gameObject);
+            }
+        }
+
         private static void ExecuteBunnyModify(string[] args, string player)
         {
             if (args.Length < 1)
@@ -31,6 +41,7 @@ namespace Quill.Commands
                     bunnySpawner.spawnInterval = 9999999;
                     bunnySpawner.spawnIntervalSuddenDeath = 9999999;
                     BeetleUtils.SendChatMessage("Stopping the Bunny Spawner...");
+                    DespawnBunny();
                     break;
                 case "speed":
                     if (args.Length != 2)
@@ -52,6 +63,9 @@ namespace Quill.Commands
 
                     bunnySpawner.spawnInterval = value;
                     bunnySpawner.spawnIntervalSuddenDeath = value;
+                    bunnySpawner.SpawnBunnyAndUpdateTime();
+                    DespawnBunny();
+
                     BeetleUtils.SendChatMessage("Setting spawn interval to " + value);
                     break;
                 default:
