@@ -13,7 +13,7 @@ namespace Quill
         {
         }
 
-        private static void ChangeBeetleExecute(string[] args, string playername)
+        public static void ChangeBeetleExecute(string[] args, string playername)
         {
             if (args.Length != 1)
             {

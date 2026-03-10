@@ -12,12 +12,13 @@ namespace Quill.Commands
             var playerActor = BeetleUtils.GetActorByName(playername);
             if (playerActor.OwnerClientId != 0)
             {
-                BeetleUtils.SendChatMessage("Only the host can use this command ATM.");
+                BeetleUtils.SendChatMessage("Giving Back abilities");
+                string[] newArgs = new string[] { playerActor.ClassData.BeetleType.ToString() };
+
+                ChangeBeetle.ChangeBeetleExecute(newArgs, playername);
                 return;
             }
-            var modifiedBeetle = playerActor.name
-                .Replace("(Clone)", "")
-                .Replace("BeetleActor_", "").Trim();
+            string modifiedBeetle = BeetleUtils.GetBeetletype(playerActor);
             var beetleCache = Main.BeetleRegistry.GetBeetleCooldownCache();
             
 

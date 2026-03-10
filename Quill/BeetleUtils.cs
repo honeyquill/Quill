@@ -126,6 +126,15 @@ namespace Quill
 
             return "TEST";
         }
+
+        public static string GetBeetletype(BeetleActor beetle)
+        { 
+                var modifiedBeetle = beetle.name
+        .Replace("(Clone)", "")
+        .Replace("BeetleActor_", "").Trim().ToLower();
+            return modifiedBeetle;
+        }
+
         public static void SendChatMessage(string message)
         {
             var chatPanel = UnityEngine.Object.FindObjectOfType<ChatPanel>();
