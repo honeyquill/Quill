@@ -34,12 +34,7 @@ namespace Quill
             var PlayerId = PlayerActor.OwnerClientId;
             var PlayerTeam = PlayerActor.Team;
 
-            var prefabSpawner = UnityEngine.Object.FindObjectsOfType<Il2Cpp.NetworkPrefabSpawner>()[0];
-            if (PlayerId == 0) {
-                prefabSpawner.SpawnClass_ServerRpc(id, new SpawnPositionData(), new SetTeamData(), new RpcParams());
-            }
-            else
-            { //This code only works on true Blue For SOME reason so i just set the team of the beetle after spawning it, this is really jank but it works so im not gonna complain
+            var prefabSpawner = UnityEngine.Object.FindObjectsOfType<Il2Cpp.NetworkPrefabSpawner>()[0]; //This code only works on true Blue For SOME reason so i just set the team of the beetle after spawning it, this is really jank but it works so im not gonna complain
                 if (GameState.CurrentState != GameState.State.Lobby_Custom)
                 {
                     var MapInitializer = UnityEngine.Object.FindObjectsOfType<Il2Cpp.MapInitializer>()[0];
@@ -64,9 +59,7 @@ namespace Quill
                 }
 
                 else
-                    BeetleUtils.SendChatMessage("You cannot change your beetle in the lobby as non host!");
-            }
-
+                    BeetleUtils.SendChatMessage("You cannot change your beetle in the lobby!");
         }
     }
 }

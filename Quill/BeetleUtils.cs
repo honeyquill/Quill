@@ -2,13 +2,44 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using static Quill.Main;
 
 namespace Quill
 {
     public static class BeetleUtils
     {
 
+        public static void Teleport(PlayerData beetle)
+        {
+            BeetleActor beetleActor = GetActorByID(beetle.NetworkID);
+            var MapInitializer = UnityEngine.Object.FindObjectsOfType<Il2Cpp.MapInitializer>()[0];
+            var prefabSpawner = UnityEngine.Object.FindObjectsOfType<Il2Cpp.NetworkPrefabSpawner>()[0];
+
+            Vector3 OriginalSpawnPos = MapInitializer.SpawnPositions[0].spawnTransform.position;
+            Quaternion OriginalSpawnRotaion = MapInitializer.SpawnPositions[0].spawnTransform.rotation;
+
+            MapInitializer.SpawnPositions[0].spawnTransform.position = beetle.Position;
+            MapInitializer.SpawnPositions[0].spawnTransform.rotation = beetle.Rotation;
+
+            prefabSpawner.SpawnClassAndSetTeam(beetle.NetworkID, TeamType.Blue, (int)beetle.BeetleID);
+            GetActorByID(beetle.NetworkID)._team.Value = (int)beetle.team;
+
+            MapInitializer.SpawnPositions[0].spawnTransform.position = OriginalSpawnPos;
+            MapInitializer.SpawnPositions[0].spawnTransform.rotation = OriginalSpawnRotaion;
+        }
+        public static BeetleActor GetActorByID(ulong id)
+        {
+            foreach (var beetle in GetAllBeetles())
+            {
+                if (beetle.OwnerClientId == id)
+                {
+                    return beetle;
+                }
+            }
+            return GetLocalBeetle();
+        }
         public static BeetleActor GetActorByName(string name)
         {
             foreach (var beetle in GetAllBeetles())
@@ -124,7 +155,7 @@ namespace Quill
                 }
             }
 
-            return "TEST";
+            return "Local Player";
         }
 
         public static string GetBeetletype(BeetleActor beetle)

@@ -14,6 +14,19 @@ namespace Quill
 {
     public class Main : MelonMod
     {
+        public class PlayerData
+        {
+            public ulong NetworkID;
+            public BeetleType BeetleID;
+            public TeamType team;
+            public Vector3 Position;
+            public Quaternion Rotation;
+        }
+        public class DungData
+        {
+            public int Size;
+            public Vector3 Position;
+        }
         private static CommandManager CommandManager { get; } = new CommandManager();
         public static BeetleRegistry BeetleRegistry { get; } = new BeetleRegistry();
 
@@ -29,6 +42,7 @@ namespace Quill
             CommandManager.RegisterCommand("clear", new ClearDung());
             CommandManager.RegisterCommand("beetle", new ChangeBeetle());
             CommandManager.RegisterCommand("goal", new DisableScoring());
+            CommandManager.RegisterCommand("ss", new SaveStates());
 
             BeetleRegistry.RegisterNameToIdCache();
         }

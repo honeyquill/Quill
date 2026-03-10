@@ -8,7 +8,7 @@ namespace Quill
         {
         }
 
-        private static void ClearDungExecute(string[] args, string player)
+        public static void ClearDungExecute(string[] args, string player)
         {
             var dung = UnityEngine.Object.FindObjectsOfType<Il2Cpp.DungBall>();
             var bunnies = UnityEngine.Object.FindObjectsOfType<Il2Cpp.BunnyPathJumper>();

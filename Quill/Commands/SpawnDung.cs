@@ -10,7 +10,7 @@ namespace Quill
             : base("dung", "Creates a dung sized [1 - 5]", ExecuteSpawnDung, 1)
         {
         }
-        private static void ExecuteSpawnDung(string[] args, string player)
+        public static void ExecuteSpawnDung(string[] args, string player)
         {
             if (args.Length < 1)
             {
