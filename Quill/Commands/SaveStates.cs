@@ -6,6 +6,7 @@ using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 using System.Collections.Generic;
+using MelonLoader.TinyJSON;
 namespace Quill
 {
     public class SaveStates : ChatCommand
@@ -29,6 +30,7 @@ namespace Quill
         }
 
         static SaveState currentState = new SaveState();
+        static bool auto = false;
         private static void SaveStatesExecute(string[] args, string playername)
         {
             if (args.Length == 0)
@@ -85,14 +87,31 @@ namespace Quill
                             var rpcParams = new RpcParams(); // initializes new non null rpc params
                             prefabSpawner.SpawnDungBall_ServerRpc(dungData.Position, Vector3.zero, dungData.Size, 0, rpcParams);
                         }
+                        break;
 
+                    case "auto":
+                        BeetleUtils.SendChatMessage("Savestates " + (auto ? "wont " : "will") + "automatically load when you score");
+                        auto = !auto;
                         break;
                     default:
-                        BeetleUtils.SendChatMessage("Usage: Score [on/off]");
+                        BeetleUtils.SendChatMessage("Usage: SS [Save/Load]");
                         break;
                 }
             }
+        }
+        [HarmonyPatch(typeof(Goal), "BallEnteredGoal_ServerRpc")]
+        class Goal_BallEnteredGoal_ServerRpc_Patch
+        {
+            static bool Prefix(ulong ballId)
+            {
+                if (!(Quill.Main._quillEnabled && Quill.Main.inCustom))
+                    return true;
 
+                if (auto)
+                    SaveStatesExecute(new string[] { "load" }, "");
+
+                return !auto;
+            }
         }
     }
 }
