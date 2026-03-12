@@ -7,7 +7,7 @@ using UnityEngine;
 using Main = Quill.Main;
 
 
-[assembly: MelonInfo(typeof(Main), "Quill", "1.0", "Bee")]
+[assembly: MelonInfo(typeof(Main), "Quill", "1.0", "Bee & Spike")]
 
 
 namespace Quill
