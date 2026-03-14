@@ -55,21 +55,11 @@ namespace Quill
                 return;
             }
 
-            switch (GameState.CurrentState)
-            {
-                case GameState.State.Lobby_Custom:
-                    inCustom = true;
-                    break;
-                case GameState.State.MainMenu:
-                    inCustom = false;
-                    break;
-                case GameState.State.Lobby_PreMatch:
-                    inCustom = true;
-                    break;
-            }
+            var Matchmanager = UnityEngine.Object.FindObjectsOfType<Il2Cpp.MatchDataManager>()[0];
+            
 
 
-            if (!inCustom) return;
+            if (Matchmanager.ActiveMatch.isRanked) return;
             if (!_quillEnabled) SendChatMessage($"This server is running {Info.Name} {Info.Version} by {Info.Author}");
             _quillEnabled = true;
 
