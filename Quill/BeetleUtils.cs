@@ -114,7 +114,7 @@ namespace Quill
             var input = chatlog.text.text;
 
             var result = new List<(string player, string message)>();
-            var matches = Regex.Matches(input, @"<b><color=#.*?>(.*?)<\/color><\/b>:\s*(.*)");
+            var matches = Regex.Matches(input, @"<b><color=#.*?>(.*?)<\/color><\/b>:\s*<color=#.*>(.*)<\/color>");
 
             foreach (Match match in matches)
             {
