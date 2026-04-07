@@ -23,6 +23,10 @@ namespace Quill
         
         public void CommandHandler()
         {
+            foreach (var command in _commands.Select(kvp => kvp.Value))
+            {
+                command.Update();
+            }
             var result = GetNewestCommand();
             if (result == null) return;
             var (commandName, args, player) = result.Value;

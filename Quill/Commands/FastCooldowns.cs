@@ -4,51 +4,43 @@ namespace Quill.Commands
 {
     public class FastCooldowns : ChatCommand
     {
-        public FastCooldowns(): base("cooldowns", "Manage Cooldowns being on or off", FastCooldownsExecute, 1)
+        public static bool cooldownsEnabeled = true;
+        public FastCooldowns(): base("cooldowns", "Manage Cooldowns being on or off", FastCooldownsExecute, 1, FastCooldownsUpdate)
         {
         }
         private static void FastCooldownsExecute(string[] args, string playername)
         {
-            var playerActor = BeetleUtils.GetActorByName(playername);
-            if (playerActor.OwnerClientId != 0)
-            {
-                BeetleUtils.SendChatMessage("Giving Back abilities");
-                string[] newArgs = new string[] { playerActor.ClassData.BeetleType.ToString() };
-
-                ChangeBeetle.ChangeBeetleExecute(newArgs, playername);
-                return;
-            }
-            string modifiedBeetle = BeetleUtils.GetBeetletype(playerActor);
-            var beetleCache = Main.BeetleRegistry.GetBeetleCooldownCache();
-            
-
-            if (!beetleCache.ContainsKey(modifiedBeetle))
-            {
-                var ballCooldown = playerActor.Stats.AbilityStatsBall.ChargeDuration;
-                var ballNormalCooldown = playerActor.Stats.AbilityStatsNormal.ChargeDuration;
-                
-                beetleCache.Add(modifiedBeetle, new BeetleData(ballCooldown, ballNormalCooldown));
-            }
-            
-            if (args.Length != 1)
+            if (args.Length > 1)
             {
                 BeetleUtils.SendChatMessage("Usage: Cooldowns [on/off]");
             }
-            
+            if(args.Length == 0)
+            {
+                cooldownsEnabeled = !cooldownsEnabeled;
+                return;
+            }
             switch (args[0])
             {
                 case "on":
-                    beetleCache[modifiedBeetle].ResetCooldowns(playerActor);
-                    BeetleUtils.SendChatMessage("cooldowns turning on");
+                    cooldownsEnabeled = true;
                     break;
                 case "off":
-                    playerActor.Stats.AbilityStatsBall.ChargeDuration = 0.1f;
-                    playerActor.Stats.AbilityStatsNormal.ChargeDuration = 0.1f;
+                    cooldownsEnabeled = false;
                     BeetleUtils.SendChatMessage("Cooldowns turning off");
                     break;
                 default:
                     BeetleUtils.SendChatMessage("Usage: Cooldowns [on/off]");
                     break;
+            }
+        }
+        public static void FastCooldownsUpdate()
+        {
+            if (!cooldownsEnabeled)
+            {
+                var localBeetle = BeetleUtils.GetLocalBeetle();
+                if (localBeetle == null) return;
+                localBeetle._abilityChargingNormal.SetChargeLerp(1); //Lerp is the same as percentage
+                localBeetle._abilityChargingBall.SetChargeLerp(1);
             }
         }
     }

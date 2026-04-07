@@ -5,7 +5,7 @@ namespace Quill.Commands
     public class BunnyModify : ChatCommand
     {
         public BunnyModify()
-            : base("bunny", "starts, stops, or changes the speed | of the bunny", ExecuteBunnyModify, 1)
+            : base("bunny", "starts, stops, or changes the speed | of the bunny", ExecuteBunnyModify, 1,null)
         {
         }
 

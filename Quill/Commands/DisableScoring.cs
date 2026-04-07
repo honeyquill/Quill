@@ -16,7 +16,7 @@ namespace Quill
         }
 
         static bool AllowScoring = true;
-        public DisableScoring() : base("goal", "Disables / Enables goals", ChangeGoalAvaliability, 0)
+        public DisableScoring() : base("goal", "Disables / Enables goals", ChangeGoalAvaliability, 0,null)
         {
         }
 

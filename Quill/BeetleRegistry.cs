@@ -4,7 +4,6 @@ namespace Quill
 {
     public class BeetleRegistry
     {
-        private readonly Dictionary<string, BeetleData> _beetleCooldownCache = new Dictionary<string, BeetleData>();
         private readonly Dictionary<string, int> _nameToId = new Dictionary<string, int>();
 
         public void RegisterNameToIdCache()
@@ -41,11 +40,6 @@ namespace Quill
 
             id = -1; //not found
             return false;
-        }
-        
-        public Dictionary<string, BeetleData> GetBeetleCooldownCache()
-        {
-            return _beetleCooldownCache;
         }
     }
 }
