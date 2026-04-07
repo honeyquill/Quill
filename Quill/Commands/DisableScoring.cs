@@ -51,7 +51,7 @@ namespace Quill
         {
             static bool Prefix(ulong ballId)
             {
-                if (Quill.Main._quillEnabled && Quill.Main.inCustom)
+                if (Quill.Main._quillEnabled)
                     return AllowScoring;
                 else
                     return true;
