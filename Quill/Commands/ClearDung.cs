@@ -4,7 +4,7 @@ namespace Quill
 {
     public class ClearDung : ChatCommand
     {
-        public ClearDung() : base("clear", "destroys all dung", ClearDungExecute, 0,null)
+        public ClearDung() : base("clear", "destroys all dung", ClearDungExecute, 0)
         {
         }
 

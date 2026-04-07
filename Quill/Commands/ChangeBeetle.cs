@@ -9,7 +9,7 @@ namespace Quill
 {
     public class ChangeBeetle : ChatCommand
     {
-        public ChangeBeetle() : base("beetle", "changes your beetle to the decided beetle", ChangeBeetleExecute, 1,null)
+        public ChangeBeetle() : base("beetle", "changes your beetle to the decided beetle", ChangeBeetleExecute, 1)
         {
         }
 

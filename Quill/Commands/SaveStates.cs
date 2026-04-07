@@ -36,7 +36,7 @@ namespace Quill
         }
 
 
-        public SaveStates() : base("ss", "saves / loads savestates", SaveStatesExecute, 1, null)
+        public SaveStates() : base("ss", "saves / loads savestates", SaveStatesExecute, 1)
         {
         }
 

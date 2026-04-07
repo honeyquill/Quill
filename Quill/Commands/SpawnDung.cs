@@ -7,7 +7,7 @@ namespace Quill
     public class SpawnDung : ChatCommand
     {
         public SpawnDung()
-            : base("dung", "Creates a dung sized [1 - 5]", ExecuteSpawnDung, 1, null)
+            : base("dung", "Creates a dung sized [1 - 5]", ExecuteSpawnDung, 1)
         {
         }
         public static void ExecuteSpawnDung(string[] args, string player)

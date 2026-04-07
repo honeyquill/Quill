@@ -9,7 +9,7 @@ namespace Quill
         private readonly Action<string[], string> _execute;
         private readonly Action? _Update;
 
-        public ChatCommand(string name, string description, Action<string[], string> execute, int args, Action? Update)
+        public ChatCommand(string name, string description, Action<string[], string> execute, int args, Action? Update = null)
         {
             Name = name;
             Description = description;
