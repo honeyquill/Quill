@@ -46,6 +46,7 @@ namespace Quill
             }
 
         }
+
         [HarmonyPatch(typeof(Goal), "BallEnteredGoal_ServerRpc")]
         class Goal_BallEnteredGoal_ServerRpc_Patch
         {

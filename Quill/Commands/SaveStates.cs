@@ -67,6 +67,7 @@ namespace Quill
                         currentState.Dungs.Clear();
                         currentState.NetworkObjects.Clear();
                         SaveCurrentState();
+                        BeetleUtils.SendChatMessage("Saved current state!");
                         break;
                     case "load":
                         LoadCurrentState(AllNetWorkObjectSnapchot);

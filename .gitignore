@@ -7,7 +7,7 @@
 # Allow C# files
 !*.cs
 
-# Keep the gitignore itself
+!*.csproj
 !.gitignore
 /Quill/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
 
