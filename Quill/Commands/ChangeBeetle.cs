@@ -4,6 +4,8 @@ using MelonLoader;
 using Unity.Netcode;
 using UnityEngine;
 using static Quill.Main;
+using static Quill.BeetleUtils;
+using ChatCommands;
 
 namespace Quill
 {
@@ -17,7 +19,7 @@ namespace Quill
         {
             if (args.Length != 1)
             {
-                BeetleUtils.SendChatMessage("usage: beetle [beetle name] (common aliases/ID works)");
+                SendChatMessage("usage: beetle [beetle name] (common aliases/ID works)");
                 return;
             }
             
@@ -26,11 +28,11 @@ namespace Quill
             Main.BeetleRegistry.TryGetId(desiredBeetle, out var id);
             if (id == -1)
             {
-                BeetleUtils.SendChatMessage("unknown beetle " + id);
+                SendChatMessage("unknown beetle " + id);
                 return;
             }
             
-            var PlayerActor = BeetleUtils.GetActorByName(playername);
+            var PlayerActor = GetActorByName(playername);
             var PlayerId = PlayerActor.OwnerClientId;
             var PlayerTeam = PlayerActor.Team;
 
@@ -46,7 +48,7 @@ namespace Quill
                     MapInitializer.SpawnPositions[0].spawnTransform.rotation = PlayerActor.transform.rotation;
 
                     prefabSpawner.SpawnClassAndSetTeam(PlayerId, TeamType.Blue, id);
-                    foreach( var beetle in BeetleUtils.GetAllBeetles())
+                    foreach( var beetle in GetAllBeetles())
                     {
                         if (beetle.OwnerClientId == PlayerId)
                         {
@@ -59,7 +61,7 @@ namespace Quill
                 }
 
                 else
-                    BeetleUtils.SendChatMessage("You cannot change your beetle in the lobby!");
+                    SendChatMessage("You cannot change your beetle in the lobby!");
         }
     }
 }

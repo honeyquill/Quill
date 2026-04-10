@@ -1,5 +1,5 @@
 ﻿using Il2Cpp;
-
+using ChatCommands;
 namespace Quill.Commands
 {
     public class BunnyModify : ChatCommand

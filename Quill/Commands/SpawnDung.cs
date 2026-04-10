@@ -1,7 +1,7 @@
 ﻿using Il2Cpp;
 using Quill;
 using Unity.Netcode;
-
+using ChatCommands;
 namespace Quill
 {
     public class SpawnDung : ChatCommand

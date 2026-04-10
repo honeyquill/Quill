@@ -1,9 +1,11 @@
-﻿using System.Net;
-using Il2Cpp;
-using static Quill.BeetleUtils;
+﻿using Il2Cpp;
 using MelonLoader;
 using Quill.Commands;
+using System.Linq;
+using System.Net;
 using UnityEngine;
+using static MelonLoader.MelonLogger;
+using static Quill.BeetleUtils;
 using Main = Quill.Main;
 
 
@@ -22,12 +24,12 @@ namespace Quill
             public Vector3 Position;
             public Quaternion Rotation;
         }
+        
         public class DungData
         {
             public int Size;
             public Vector3 Position;
         }
-        private static CommandManager CommandManager { get; } = new CommandManager();
         public static BeetleRegistry BeetleRegistry { get; } = new BeetleRegistry();
 
         public static bool _quillEnabled = false;
@@ -36,37 +38,22 @@ namespace Quill
 
         public override void OnInitializeMelon()
         {
-            CommandManager.RegisterCommand("dung", new SpawnDung());
-            CommandManager.RegisterCommand("bunny", new BunnyModify());
-            CommandManager.RegisterCommand("cooldowns", new FastCooldowns());
-            CommandManager.RegisterCommand("clear", new ClearDung());
-            CommandManager.RegisterCommand("beetle", new ChangeBeetle());
-            CommandManager.RegisterCommand("goal", new DisableScoring());
-            CommandManager.RegisterCommand("ss", new SaveStates());
+            var chatCommands = MelonMod.RegisteredMelons.OfType<ChatCommands.Main>().FirstOrDefault();
+
+            if (chatCommands == null)
+            {
+                MelonLogger.Warning("ChatCommands could not be found.");
+                return;
+            }
+            chatCommands.RegisterCommand("dung", new SpawnDung());
+            chatCommands.RegisterCommand("bunny", new BunnyModify());
+            chatCommands.RegisterCommand("cooldowns", new FastCooldowns());
+            chatCommands.RegisterCommand("clear", new ClearDung());
+            chatCommands.RegisterCommand("beetle", new ChangeBeetle());
+            chatCommands.RegisterCommand("goal", new DisableScoring());
+            chatCommands.RegisterCommand("ss", new SaveStates());
 
             BeetleRegistry.RegisterNameToIdCache();
         }
-
-        public override void OnUpdate()
-        {
-            if (!IsHost())
-            {
-                _quillEnabled = false;
-                return;
-            }
-
-            var Matchmanager = UnityEngine.Object.FindObjectsOfType<Il2Cpp.MatchDataManager>()[0];
-            
-
-
-            if (Matchmanager.ActiveMatch.isRanked) return;
-            if (!_quillEnabled) SendChatMessage($"This server is running {Info.Name} {Info.Version} by {Info.Author}");
-            _quillEnabled = true;
-
-            CommandManager.CommandHandler();
-        }
-
-
-
     }
 } 

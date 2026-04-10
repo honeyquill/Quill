@@ -40,6 +40,12 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beetleball Demo\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="BeetleUtils">
+      <HintPath>..\..\..\..\..\source\repos\BeetleUtils\BeetleUtils\obj\Debug\net6.0\BeetleUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="ChatCommands %281%29">
+      <HintPath>..\..\..\..\ChatCommands (1).dll</HintPath>
+    </Reference>
     <Reference Include="Il2Cppcom.nuin.scriptableharmony">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beetleball Demo\MelonLoader\Il2CppAssemblies\Il2Cppcom.nuin.scriptableharmony.dll</HintPath>
     </Reference>
@@ -99,10 +105,8 @@
   <ItemGroup>
     <Compile Include="BeetleRegistry.cs" />
     <Compile Include="BeetleUtils.cs" />
-    <Compile Include="CommandManager.cs" />
     <Compile Include="Commands\BunnyModify.cs" />
     <Compile Include="Commands\ChangeBeetle.cs" />
-    <Compile Include="Commands\Classes\ChatCommand.cs" />
     <Compile Include="Commands\ClearDung.cs" />
     <Compile Include="Commands\DisableScoring.cs" />
     <Compile Include="Commands\FastCooldowns.cs" />
