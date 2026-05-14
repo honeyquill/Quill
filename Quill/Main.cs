@@ -52,6 +52,7 @@ namespace Quill
             chatCommands.RegisterCommand("beetle", new ChangeBeetle());
             chatCommands.RegisterCommand("goal", new DisableScoring());
             chatCommands.RegisterCommand("ss", new SaveStates());
+            chatCommands.RegisterCommand("team", new ChangeTeam());
 
             BeetleRegistry.RegisterNameToIdCache();
         }
